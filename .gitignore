@@ -15,14 +15,6 @@ Assets/AssetStoreTools*
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
 ExportedObj/
-*.svd
-*.userprefs
-*.csproj
-*.pidb
-*.suo
-*.user
-*.unityproj
-*.booproj
 
 # =============== #
 # Rider generated #
