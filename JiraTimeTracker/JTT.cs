@@ -13,11 +13,22 @@ namespace JiraTimeTracker
     public partial class JTT : Form
     {
         private ConnectionHandler connectionHandler;
-        private JTT window;
+        private JTT form;
 
         public JTT()
         {
             InitializeComponent();
+            SetActiveForm();
+        }
+
+        private JTT SetActiveForm()
+        {
+            if (form == null)
+            {
+                form = Form.ActiveForm as JTT;
+                return form;
+            }
+            return form;
         }
 
         private void JTT_Load(object sender, EventArgs e)
@@ -27,7 +38,8 @@ namespace JiraTimeTracker
 
         private void TestButton_Click(object sender, EventArgs e)
         {
-            connectionHandler = new ConnectionHandler(window.UrlTextBox.Text, window.ApiTokenTextBox.Text, window.UsernameTextBox.Text, window.PasswordTextBox.Text);
+            SetActiveForm();
+            connectionHandler = new ConnectionHandler(form.UrlTextBox.Text, form.LoginTextBox.Text, form.PasswordTextBox.Text);
             connectionHandler.TestConnection();
         }
     }
