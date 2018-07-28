@@ -119,6 +119,7 @@ namespace JiraTimeTracker
                 {
                     return true;
                 }
+
                 return false;
             }
             catch(Exception e)
