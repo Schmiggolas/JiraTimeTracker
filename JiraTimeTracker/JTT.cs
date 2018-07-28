@@ -8,11 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net.Http;
 
 namespace JiraTimeTracker
 {
     public partial class JTT : Form
     {
+
+        private string version = "1.4";
+
+
         private ConnectionHandler connectionHandler;
         private JTT form;
         private CConsole cConsole;
@@ -30,6 +35,7 @@ namespace JiraTimeTracker
             form.MinimizeBox = false;
             form.MaximizeBox = false;
             InitializeOutput();
+            CheckForUpdate();
         }
 
         private JTT SetActiveForm()
@@ -155,6 +161,16 @@ namespace JiraTimeTracker
         private void LoadConfigButton_Click(object sender, EventArgs e)
         {
             CheckForConfig();
+        }
+
+        private void CheckForUpdate()
+        {
+            var client = new HttpClient();
+            var result = client.GetStringAsync("http://jtt.mightypotato.de/get_version.php").Result;
+            if(result != version)
+            {
+                MessageBox.Show("There is an Update availabe at github.com/TehMightyPotato/JiraTimeTracker \r\n Please consider updating!");
+            }
         }
 
         private bool CheckForConfig()
