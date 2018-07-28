@@ -89,7 +89,7 @@ namespace JiraTimeTracker
                 JsonConv conv = new JsonConv();
                 RootObject decoderesult =  conv.DecodeJsonToRootObject(queryresult);
                 int timeinseconds = CalculateWorkingTimeInSeconds(decoderesult);
-                return timeinseconds.ToString();
+                return TimeSpan.FromSeconds(timeinseconds).TotalHours.ToString();
             }
             else
             {
