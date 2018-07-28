@@ -102,6 +102,10 @@ namespace JiraTimeTracker
             int result = 0;
             for(int i = 0; i < root.issues.Count; i++)
             {
+                if(root.issues[i].fields.assignee == null)
+                {
+                    continue;
+                }
                 if(root.issues[i].fields.timespent != null && root.issues[i].fields.assignee.name == UsernameTextBox.Text)
                 {
                     result += (int)root.issues[i].fields.timespent;
