@@ -69,11 +69,13 @@ namespace JiraTimeTracker
             {
                 cConsole.WriteOutput("Test Successfull");
             }
+            connectionHandler.ResetHttpClient();
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
             GetTimeForUser();
+            connectionHandler.ResetHttpClient();
         }
 
         private void GetTimeForUser()
@@ -127,6 +129,7 @@ namespace JiraTimeTracker
         {
             GetConnectionHandler();
             GetAllUsers();
+            connectionHandler.ResetHttpClient();
         }
 
         private void GetAllUsers()
@@ -187,5 +190,13 @@ namespace JiraTimeTracker
             }
         }
 
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            if (connectionHandler != null && connectionHandler.httpClient != null)
+            {
+                cConsole.WriteOutput("Resetting HTTP-Client");
+                connectionHandler.ResetHttpClient();
+            }
+        }
     }
 }

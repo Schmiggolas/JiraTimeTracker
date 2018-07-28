@@ -40,6 +40,7 @@
             this.UserTextBox = new System.Windows.Forms.TextBox();
             this.GetUsersButton = new System.Windows.Forms.Button();
             this.LoadConfigButton = new System.Windows.Forms.Button();
+            this.ResetButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UrlTextBox
@@ -144,11 +145,22 @@
             this.LoadConfigButton.UseVisualStyleBackColor = true;
             this.LoadConfigButton.Click += new System.EventHandler(this.LoadConfigButton_Click);
             // 
+            // ResetButton
+            // 
+            this.ResetButton.Location = new System.Drawing.Point(325, 64);
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.Size = new System.Drawing.Size(75, 23);
+            this.ResetButton.TabIndex = 12;
+            this.ResetButton.Text = "Reset";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
+            // 
             // JTT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 546);
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.LoadConfigButton);
             this.Controls.Add(this.GetUsersButton);
             this.Controls.Add(this.UserTextBox);
@@ -182,6 +194,7 @@
         private System.Windows.Forms.TextBox UserTextBox;
         private System.Windows.Forms.Button GetUsersButton;
         private System.Windows.Forms.Button LoadConfigButton;
+        private System.Windows.Forms.Button ResetButton;
     }
 }
 

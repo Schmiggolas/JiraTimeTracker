@@ -20,7 +20,7 @@ namespace JiraTimeTracker
 
         private string query;
 
-        private HttpClient httpClient;
+        public HttpClient httpClient;
         private CConsole cConsole;
 
 
@@ -41,36 +41,30 @@ namespace JiraTimeTracker
             this.login = login;
             this.password = password;
             this.url = PrepareUrl(url);
-            GetHttpClient(true);
+            GetHttpClient();
         }
 
-        private void GetHttpClient(bool update = false)
+        private void GetHttpClient()
         {
             try
             {
-                if (httpClient != null && !update)
-                {
-                    cConsole.WriteOutput("httpClient already present... continuing");
-                    return;
-                }
-                if(httpClient != null && update)
-                {
-                    cConsole.WriteOutput("httpClient already present... continuing");
-                    httpClient.BaseAddress = new Uri(url);
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BuildAuthHeader());
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    return;
-                }
                 httpClient = new HttpClient();
                 httpClient.BaseAddress = new Uri(url);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BuildAuthHeader());
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                cConsole.WriteOutput("Successfully created httpClient");
+                //cConsole.WriteOutput("Successfully created httpClient");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + " | Please check your URL for typos");
+                cConsole.WriteOutput(e.Message + " | Please check your URL for typos");
             }
+        }
+
+        public void ResetHttpClient()
+        {
+            httpClient.CancelPendingRequests();
+            httpClient.Dispose();
+            httpClient = null;
         }
 
         private string PrepareUrl(string url)
