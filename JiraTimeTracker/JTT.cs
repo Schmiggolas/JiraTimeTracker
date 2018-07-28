@@ -56,8 +56,11 @@ namespace JiraTimeTracker
                 connectionHandler = new ConnectionHandler(UrlTextBox.Text, LoginTextBox.Text, PasswordTextBox.Text,cConsole);
                 return connectionHandler;
             }
-            connectionHandler.UpdateVariables(UrlTextBox.Text, LoginTextBox.Text, PasswordTextBox.Text);
-            return connectionHandler;
+            else
+            {
+                connectionHandler.UpdateVariables(UrlTextBox.Text, LoginTextBox.Text, PasswordTextBox.Text);
+                return connectionHandler;
+            }
         }
 
         private void TestButton_Click(object sender, EventArgs e)
@@ -70,7 +73,6 @@ namespace JiraTimeTracker
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            GetConnectionHandler();
             GetTimeForUser();
         }
 
@@ -96,7 +98,6 @@ namespace JiraTimeTracker
             {
                 IssuesRoot decoderesult =  jsonConv.DecodeJsonToIssuesRoot(queryresult);
                 int timeinseconds = CalculateWorkingTimeInSeconds(decoderesult);
-                jsonConv = null;
                 return TimeSpan.FromSeconds(timeinseconds).TotalHours.ToString();
             }
             else
@@ -140,11 +141,11 @@ namespace JiraTimeTracker
                     if(decoderesult.users.items[i] != null)
                     {
                         outputText += decoderesult.users.items[i].displayName + " aka. " + decoderesult.users.items[i].name + "\r\n";
-                        cConsole.WriteUserList(outputText);
+                        
                     }
                 }
+                cConsole.WriteUserList(outputText);
                 cConsole.WriteOutput("Operation Complete!");
-                jsonConv = null;
             }
         }
 

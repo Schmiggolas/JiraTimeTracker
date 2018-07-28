@@ -29,11 +29,11 @@ namespace JiraTimeTracker
             this.login = login;
             this.password = password;
             this.url = PrepareUrl(url);
-            CreateHttpClient();
             if(this.cConsole == null)
             {
                 this.cConsole = cConsole;
             }
+            GetHttpClient();
         }
 
         public void UpdateVariables(string url, string login, string password)
@@ -41,14 +41,26 @@ namespace JiraTimeTracker
             this.login = login;
             this.password = password;
             this.url = PrepareUrl(url);
-            CreateHttpClient();
+            GetHttpClient(true);
         }
 
-        private void CreateHttpClient()
+        private void GetHttpClient(bool update = false)
         {
             try
             {
-                if (httpClient != null) return;
+                if (httpClient != null && !update)
+                {
+                    cConsole.WriteOutput("httpClient already present... continuing");
+                    return;
+                }
+                if(httpClient != null && update)
+                {
+                    cConsole.WriteOutput("httpClient already present... continuing");
+                    httpClient.BaseAddress = new Uri(url);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BuildAuthHeader());
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    return;
+                }
                 httpClient = new HttpClient();
                 httpClient.BaseAddress = new Uri(url);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BuildAuthHeader());

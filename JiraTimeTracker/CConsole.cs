@@ -22,7 +22,7 @@ namespace JiraTimeTracker
         {
             if(text != null)
             {
-                outputBox.Text += "\r\n" + text;
+                outputBox.AppendText("\r\n" + text);
             }
         }
 
