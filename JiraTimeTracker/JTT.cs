@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace JiraTimeTracker
 {
@@ -15,6 +16,7 @@ namespace JiraTimeTracker
         private ConnectionHandler connectionHandler;
         private JTT form;
         private CConsole cConsole;
+        private JsonConv jsonConv;
 
         public JTT()
         {
@@ -43,6 +45,7 @@ namespace JiraTimeTracker
 
         private void InitializeOutput()
         {
+            jsonConv = new JsonConv();
             cConsole = new CConsole(form.OutputTextBox, form.UserTextBox);
         }
 
@@ -77,22 +80,23 @@ namespace JiraTimeTracker
             if(result != null)
             {
                 cConsole.WriteOutput("Working hours for user " + UsernameTextBox.Text + " : " + result);
+                cConsole.WriteOutput("Operation Complete!");
             }
             else
             {
-                cConsole.WriteOutput("An error occured. Is there a typo in the provided username?");
+                cConsole.WriteOutput("Error: Is there a typo in the provided username/too many failed login attempts?");
             }
         }
 
         private string GetWorkingTime()
         {
             var queryresult = GetConnectionHandler().GetAssignedIssuesForUser(UsernameTextBox.Text,ProjectKeyTextBox.Text);
-            if(queryresult != null)
+            cConsole.WriteOutput("Parsing Response, please wait...");
+            if (queryresult != null)
             {
-                JsonConv conv = new JsonConv();
-                IssuesRoot decoderesult =  conv.DecodeJsonToIssuesRoot(queryresult);
+                IssuesRoot decoderesult =  jsonConv.DecodeJsonToIssuesRoot(queryresult);
                 int timeinseconds = CalculateWorkingTimeInSeconds(decoderesult);
-                conv = null;
+                jsonConv = null;
                 return TimeSpan.FromSeconds(timeinseconds).TotalHours.ToString();
             }
             else
@@ -129,8 +133,7 @@ namespace JiraTimeTracker
             var queryresult = connectionHandler.GetAllStudentUsers();
             if (queryresult != null)
             {
-                JsonConv conv = new JsonConv();
-                UserRoot decoderesult = conv.DecodeJsonToUserRoot(queryresult);
+                UserRoot decoderesult = jsonConv.DecodeJsonToUserRoot(queryresult);
                 string outputText = " ";
                 for(int i = 0; i < decoderesult.users.items.Count; i++)
                 {
@@ -140,7 +143,46 @@ namespace JiraTimeTracker
                         cConsole.WriteUserList(outputText);
                     }
                 }
-                conv = null;
+                cConsole.WriteOutput("Operation Complete!");
+                jsonConv = null;
+            }
+        }
+
+        private void LoadConfigButton_Click(object sender, EventArgs e)
+        {
+            CheckForConfig();
+        }
+
+        private bool CheckForConfig()
+        {
+            if (File.Exists(Directory.GetCurrentDirectory() + "/conf.cfg"))
+            {
+                cConsole.WriteOutput("Config found! Loading...");
+                string configstring = File.ReadAllText(Directory.GetCurrentDirectory() + "/conf.cfg", Encoding.UTF8);
+                Config conf =  jsonConv.DecodeJsonToConfig(configstring);
+                try
+                {
+                    if (conf.login != null)
+                    {
+                        LoginTextBox.Text = conf.login;
+                    }
+                    if (conf.url != null)
+                    {
+                        UrlTextBox.Text = conf.url;
+                    }
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    cConsole.WriteOutput("Error: Config is in non-supported format.");
+                    return false;
+                }
+                
+            }
+            else
+            {
+                cConsole.WriteOutput("Error: No config found");
+                return false;
             }
         }
 
