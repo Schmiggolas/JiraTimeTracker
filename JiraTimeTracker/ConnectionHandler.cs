@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Media;
+using Newtonsoft;
 
 namespace JiraTimeTracker
 {
@@ -16,19 +17,30 @@ namespace JiraTimeTracker
         private string password;
 
         private string url;
-        private string apitoken;
 
         private string query;
 
         private HttpClient httpClient;
+        private CConsole cConsole;
 
 
-        public ConnectionHandler(string url, string login, string password)
+        public ConnectionHandler(string url, string login, string password,CConsole cConsole)
         {
             this.login = login;
             this.password = password;
             this.url = PrepareUrl(url);
-            this.apitoken = apitoken;
+            CreateHttpClient();
+            if(this.cConsole == null)
+            {
+                this.cConsole = cConsole;
+            }
+        }
+
+        public void UpdateVariables(string url, string login, string password)
+        {
+            this.login = login;
+            this.password = password;
+            this.url = PrepareUrl(url);
             CreateHttpClient();
         }
 
@@ -64,9 +76,10 @@ namespace JiraTimeTracker
             }
         }
 
-        private string PrepareQuery(string username)
+        private string PrepareQuery(string username, string projectKey)
         {
-            query = url + "/rest/api/2/search?jql=assignee=" + username;
+            query = url + "/rest/api/2/search?jql=project=" + projectKey + "&assignee=" + username + "&maxResults=1000";
+
             return query;
         }
 
@@ -77,21 +90,22 @@ namespace JiraTimeTracker
             return Convert.ToBase64String(plainbytes);
         }
 
-        public HttpResponseMessage GetAssignedIssuesForUser(string username)
+        public string GetAssignedIssuesForUser(string username, string projectKey)
         {
-            PrepareQuery(username);
+            PrepareQuery(username, projectKey);
             try
             {
-                HttpResponseMessage response = httpClient.GetAsync(query).Result;
+                var response = httpClient.GetAsync(query).Result;
                 if (response.IsSuccessStatusCode)
-                {
-                    return response;
+                { 
+                    string result = response.Content.ReadAsStringAsync().Result;
+                    return result;
                 }
                 return null;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + " | Please check your URL for typos");
+                cConsole.Write(e.Message + " | Please check your URL for typos");
                 return null;
             }
         }
@@ -103,16 +117,16 @@ namespace JiraTimeTracker
                 HttpResponseMessage response = httpClient.GetAsync(url).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    SystemSounds.Asterisk.Play();
                     return true;
                 }
                 return false;
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message + " | Please check your URL for typos");
+                cConsole.Write(e.Message + " | Please check your URL for typos");
                 return false;
             }
         }
+        
     }
 }

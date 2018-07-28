@@ -33,7 +33,10 @@
             this.LoginTextBox = new System.Windows.Forms.TextBox();
             this.PasswordTextBox = new System.Windows.Forms.TextBox();
             this.TestButton = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.UsernameTextBox = new System.Windows.Forms.TextBox();
+            this.OutputTextBox = new System.Windows.Forms.TextBox();
+            this.StartButton = new System.Windows.Forms.Button();
+            this.ProjectKeyTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // UrlTextBox
@@ -71,11 +74,52 @@
             this.TestButton.UseVisualStyleBackColor = true;
             this.TestButton.Click += new System.EventHandler(this.TestButton_Click);
             // 
+            // UsernameTextBox
+            // 
+            this.UsernameTextBox.Location = new System.Drawing.Point(12, 121);
+            this.UsernameTextBox.Name = "UsernameTextBox";
+            this.UsernameTextBox.Size = new System.Drawing.Size(201, 20);
+            this.UsernameTextBox.TabIndex = 5;
+            this.UsernameTextBox.Text = "Jira User Username";
+            // 
+            // OutputTextBox
+            // 
+            this.OutputTextBox.Location = new System.Drawing.Point(12, 147);
+            this.OutputTextBox.Multiline = true;
+            this.OutputTextBox.Name = "OutputTextBox";
+            this.OutputTextBox.ReadOnly = true;
+            this.OutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.OutputTextBox.Size = new System.Drawing.Size(388, 358);
+            this.OutputTextBox.TabIndex = 6;
+            this.OutputTextBox.Text = "Output";
+            // 
+            // StartButton
+            // 
+            this.StartButton.Location = new System.Drawing.Point(295, 511);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(105, 23);
+            this.StartButton.TabIndex = 7;
+            this.StartButton.Text = "Go!";
+            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // ProjectKeyTextBox
+            // 
+            this.ProjectKeyTextBox.Location = new System.Drawing.Point(12, 95);
+            this.ProjectKeyTextBox.Name = "ProjectKeyTextBox";
+            this.ProjectKeyTextBox.Size = new System.Drawing.Size(201, 20);
+            this.ProjectKeyTextBox.TabIndex = 8;
+            this.ProjectKeyTextBox.Text = "Jira Project Key";
+            // 
             // JTT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 546);
+            this.ClientSize = new System.Drawing.Size(410, 546);
+            this.Controls.Add(this.ProjectKeyTextBox);
+            this.Controls.Add(this.StartButton);
+            this.Controls.Add(this.OutputTextBox);
+            this.Controls.Add(this.UsernameTextBox);
             this.Controls.Add(this.TestButton);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.LoginTextBox);
@@ -95,7 +139,10 @@
         private System.Windows.Forms.TextBox LoginTextBox;
         private System.Windows.Forms.TextBox PasswordTextBox;
         private System.Windows.Forms.Button TestButton;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.TextBox UsernameTextBox;
+        private System.Windows.Forms.TextBox OutputTextBox;
+        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.TextBox ProjectKeyTextBox;
     }
 }
 
