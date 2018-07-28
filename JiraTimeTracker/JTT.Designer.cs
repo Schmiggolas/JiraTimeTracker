@@ -37,6 +37,8 @@
             this.OutputTextBox = new System.Windows.Forms.TextBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.ProjectKeyTextBox = new System.Windows.Forms.TextBox();
+            this.UserTextBox = new System.Windows.Forms.TextBox();
+            this.GetUsersButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UrlTextBox
@@ -52,7 +54,7 @@
             this.LoginTextBox.Location = new System.Drawing.Point(219, 12);
             this.LoginTextBox.Name = "LoginTextBox";
             this.LoginTextBox.Size = new System.Drawing.Size(181, 20);
-            this.LoginTextBox.TabIndex = 2;
+            this.LoginTextBox.TabIndex = 1;
             this.LoginTextBox.Text = "Login";
             // 
             // PasswordTextBox
@@ -61,7 +63,7 @@
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(181, 20);
-            this.PasswordTextBox.TabIndex = 3;
+            this.PasswordTextBox.TabIndex = 2;
             this.PasswordTextBox.Text = "Password";
             // 
             // TestButton
@@ -79,7 +81,7 @@
             this.UsernameTextBox.Location = new System.Drawing.Point(12, 121);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(201, 20);
-            this.UsernameTextBox.TabIndex = 5;
+            this.UsernameTextBox.TabIndex = 4;
             this.UsernameTextBox.Text = "Jira User Username";
             // 
             // OutputTextBox
@@ -108,14 +110,36 @@
             this.ProjectKeyTextBox.Location = new System.Drawing.Point(12, 95);
             this.ProjectKeyTextBox.Name = "ProjectKeyTextBox";
             this.ProjectKeyTextBox.Size = new System.Drawing.Size(201, 20);
-            this.ProjectKeyTextBox.TabIndex = 8;
+            this.ProjectKeyTextBox.TabIndex = 3;
             this.ProjectKeyTextBox.Text = "Jira Project Key";
+            // 
+            // UserTextBox
+            // 
+            this.UserTextBox.Location = new System.Drawing.Point(461, 12);
+            this.UserTextBox.Multiline = true;
+            this.UserTextBox.Name = "UserTextBox";
+            this.UserTextBox.ReadOnly = true;
+            this.UserTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.UserTextBox.Size = new System.Drawing.Size(417, 493);
+            this.UserTextBox.TabIndex = 9;
+            // 
+            // GetUsersButton
+            // 
+            this.GetUsersButton.Location = new System.Drawing.Point(579, 511);
+            this.GetUsersButton.Name = "GetUsersButton";
+            this.GetUsersButton.Size = new System.Drawing.Size(184, 23);
+            this.GetUsersButton.TabIndex = 10;
+            this.GetUsersButton.Text = "Get All Jira Users in Student Group";
+            this.GetUsersButton.UseVisualStyleBackColor = true;
+            this.GetUsersButton.Click += new System.EventHandler(this.GetUsersButton_Click);
             // 
             // JTT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 546);
+            this.ClientSize = new System.Drawing.Size(890, 546);
+            this.Controls.Add(this.GetUsersButton);
+            this.Controls.Add(this.UserTextBox);
             this.Controls.Add(this.ProjectKeyTextBox);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.OutputTextBox);
@@ -143,6 +167,8 @@
         private System.Windows.Forms.TextBox OutputTextBox;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.TextBox ProjectKeyTextBox;
+        private System.Windows.Forms.TextBox UserTextBox;
+        private System.Windows.Forms.Button GetUsersButton;
     }
 }
 

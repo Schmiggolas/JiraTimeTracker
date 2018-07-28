@@ -28,7 +28,7 @@ namespace JiraTimeTracker
         public Fields fields { get; set; }
     }
 
-    public class RootObject
+    public class IssuesRoot
     {
         public string expand { get; set; }
         public int startAt { get; set; }
@@ -37,11 +37,40 @@ namespace JiraTimeTracker
         public List<Issue> issues { get; set; }
     }
 
-    class JsonConv
+    public class Item
     {
-        public RootObject DecodeJsonToRootObject(string jsonstr)
+        public string self { get; set; }
+        public string name { get; set; }
+        public string key { get; set; }
+        public string emailAddress { get; set; }
+        public string displayName { get; set; }
+        public bool active { get; set; }
+    }
+
+    public class Users
+    {
+        public int size { get; set; }
+        public List<Item> items { get; set; }
+    }
+
+    public class UserRoot
+    {
+    public string name { get; set; }
+    public string self { get; set; }
+    public Users users { get; set; }
+    public string expand { get; set; }
+    }
+
+class JsonConv
+    {
+        public IssuesRoot DecodeJsonToIssuesRoot(string jsonstr)
         {
-            return JsonConvert.DeserializeObject<RootObject>(jsonstr);
+            return JsonConvert.DeserializeObject<IssuesRoot>(jsonstr);
+        }
+
+        public UserRoot DecodeJsonToUserRoot(string jsonstr)
+        {
+            return JsonConvert.DeserializeObject<UserRoot>(jsonstr);
         }
     }
 }

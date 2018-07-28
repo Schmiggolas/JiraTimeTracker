@@ -10,16 +10,27 @@ namespace JiraTimeTracker
     class CConsole
     {
         private TextBox outputBox;
-        public CConsole(TextBox outputTextBox)
+        private TextBox userOutputTextBox;
+
+        public CConsole(TextBox outputTextBox, TextBox userOutputTextBox)
         {
             outputBox = outputTextBox;
+            this.userOutputTextBox = userOutputTextBox;
         }
 
-        public void Write(string text)
+        public void WriteOutput(string text)
         {
             if(text != null)
             {
                 outputBox.Text += "\r\n" + text;
+            }
+        }
+
+        public void WriteUserList(string text)
+        {
+            if (text != null)
+            {
+                userOutputTextBox.Text = text;
             }
         }
     }

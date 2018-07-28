@@ -24,6 +24,9 @@ namespace JiraTimeTracker
         private void JTT_Load(object sender, EventArgs e)
         {
             SetActiveForm();
+            form.FormBorderStyle = FormBorderStyle.FixedSingle;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
             InitializeOutput();
         }
 
@@ -40,7 +43,7 @@ namespace JiraTimeTracker
 
         private void InitializeOutput()
         {
-            cConsole = new CConsole(form.OutputTextBox);
+            cConsole = new CConsole(form.OutputTextBox, form.UserTextBox);
         }
 
         private ConnectionHandler GetConnectionHandler()
@@ -58,7 +61,7 @@ namespace JiraTimeTracker
         {
             if (GetConnectionHandler().TestConnection())
             {
-                cConsole.Write("Test Successfull");
+                cConsole.WriteOutput("Test Successfull");
             }
         }
 
@@ -73,11 +76,11 @@ namespace JiraTimeTracker
             var result = GetWorkingTime();
             if(result != null)
             {
-                cConsole.Write("Working hours for user " + UsernameTextBox.Text + " : " + result);
+                cConsole.WriteOutput("Working hours for user " + UsernameTextBox.Text + " : " + result);
             }
             else
             {
-                cConsole.Write("An error occured. Is there a typo in the provided username?");
+                cConsole.WriteOutput("An error occured. Is there a typo in the provided username?");
             }
         }
 
@@ -87,8 +90,9 @@ namespace JiraTimeTracker
             if(queryresult != null)
             {
                 JsonConv conv = new JsonConv();
-                RootObject decoderesult =  conv.DecodeJsonToRootObject(queryresult);
+                IssuesRoot decoderesult =  conv.DecodeJsonToIssuesRoot(queryresult);
                 int timeinseconds = CalculateWorkingTimeInSeconds(decoderesult);
+                conv = null;
                 return TimeSpan.FromSeconds(timeinseconds).TotalHours.ToString();
             }
             else
@@ -97,7 +101,7 @@ namespace JiraTimeTracker
             }
         }
 
-        private int CalculateWorkingTimeInSeconds(RootObject root)
+        private int CalculateWorkingTimeInSeconds(IssuesRoot root)
         {
             int result = 0;
             for(int i = 0; i < root.issues.Count; i++)
@@ -113,5 +117,32 @@ namespace JiraTimeTracker
             }
             return result;
         }
+
+        private void GetUsersButton_Click(object sender, EventArgs e)
+        {
+            GetConnectionHandler();
+            GetAllUsers();
+        }
+
+        private void GetAllUsers()
+        {
+            var queryresult = connectionHandler.GetAllStudentUsers();
+            if (queryresult != null)
+            {
+                JsonConv conv = new JsonConv();
+                UserRoot decoderesult = conv.DecodeJsonToUserRoot(queryresult);
+                string outputText = " ";
+                for(int i = 0; i < decoderesult.users.items.Count; i++)
+                {
+                    if(decoderesult.users.items[i] != null)
+                    {
+                        outputText += decoderesult.users.items[i].displayName + " aka. " + decoderesult.users.items[i].name + "\r\n";
+                        cConsole.WriteUserList(outputText);
+                    }
+                }
+                conv = null;
+            }
+        }
+
     }
 }

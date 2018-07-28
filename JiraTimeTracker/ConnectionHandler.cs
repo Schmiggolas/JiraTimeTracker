@@ -76,12 +76,14 @@ namespace JiraTimeTracker
             }
         }
 
-        private string PrepareQuery(string username, string projectKey)
+        private string PrepareUserQuery(string username, string projectKey)
         {
             query = url + "/rest/api/2/search?jql=project=" + projectKey + "&assignee=" + username + "&maxResults=1000";
 
             return query;
         }
+
+
 
         private string BuildAuthHeader()
         {
@@ -92,7 +94,7 @@ namespace JiraTimeTracker
 
         public string GetAssignedIssuesForUser(string username, string projectKey)
         {
-            PrepareQuery(username, projectKey);
+            PrepareUserQuery(username, projectKey);
             try
             {
                 var response = httpClient.GetAsync(query).Result;
@@ -105,7 +107,27 @@ namespace JiraTimeTracker
             }
             catch (Exception e)
             {
-                cConsole.Write(e.Message + " | Please check your URL for typos");
+                cConsole.WriteOutput(e.Message + " | Please check your URL for typos");
+                return null;
+            }
+        }
+
+        public string GetAllStudentUsers()
+        {
+            var query = url + "/rest/api/2/group?groupname=Student&expand=users";
+            try
+            {
+                var response = httpClient.GetAsync(query).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = response.Content.ReadAsStringAsync().Result;
+                    return result;
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                cConsole.WriteOutput(e.Message + " | Please check your URL for typos");
                 return null;
             }
         }
@@ -124,7 +146,7 @@ namespace JiraTimeTracker
             }
             catch(Exception e)
             {
-                cConsole.Write(e.Message + " | Please check your URL for typos");
+                cConsole.WriteOutput(e.Message + " | Please check your URL for typos");
                 return false;
             }
         }
