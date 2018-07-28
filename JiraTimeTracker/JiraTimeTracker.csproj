@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CConsole.cs" />
+    <Compile Include="JsonConv.cs" />
     <Compile Include="ConnectionHandler.cs" />
     <Compile Include="JTT.cs">
       <SubType>Form</SubType>
