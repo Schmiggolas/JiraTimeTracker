@@ -61,6 +61,12 @@ namespace JiraTimeTracker
     public string expand { get; set; }
     }
 
+    public class Config
+    {
+        public string url { get; set; }
+        public string login { get; set; }
+    }
+
 class JsonConv
     {
         public IssuesRoot DecodeJsonToIssuesRoot(string jsonstr)
@@ -71,6 +77,11 @@ class JsonConv
         public UserRoot DecodeJsonToUserRoot(string jsonstr)
         {
             return JsonConvert.DeserializeObject<UserRoot>(jsonstr);
+        }
+
+        public Config DecodeJsonToConfig(string jsonstr)
+        {
+            return JsonConvert.DeserializeObject<Config>(jsonstr);
         }
     }
 }

@@ -53,6 +53,7 @@ namespace JiraTimeTracker
                 httpClient.BaseAddress = new Uri(url);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BuildAuthHeader());
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                cConsole.WriteOutput("Successfully created httpClient");
             }
             catch (Exception e)
             {
@@ -97,6 +98,7 @@ namespace JiraTimeTracker
             PrepareUserQuery(username, projectKey);
             try
             {
+                cConsole.WriteOutput("Querying Server, please wait...");
                 var response = httpClient.GetAsync(query).Result;
                 if (response.IsSuccessStatusCode)
                 { 
@@ -117,6 +119,7 @@ namespace JiraTimeTracker
             var query = url + "/rest/api/2/group?groupname=Student&expand=users";
             try
             {
+                cConsole.WriteOutput("Querying Server, please wait...");
                 var response = httpClient.GetAsync(query).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -136,6 +139,7 @@ namespace JiraTimeTracker
         {
             try
             {
+                cConsole.WriteOutput("Querying Server, please wait...");
                 HttpResponseMessage response = httpClient.GetAsync(url).Result;
                 if (response.IsSuccessStatusCode)
                 {

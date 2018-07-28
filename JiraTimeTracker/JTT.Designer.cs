@@ -39,6 +39,7 @@
             this.ProjectKeyTextBox = new System.Windows.Forms.TextBox();
             this.UserTextBox = new System.Windows.Forms.TextBox();
             this.GetUsersButton = new System.Windows.Forms.Button();
+            this.LoadConfigButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UrlTextBox
@@ -133,11 +134,22 @@
             this.GetUsersButton.UseVisualStyleBackColor = true;
             this.GetUsersButton.Click += new System.EventHandler(this.GetUsersButton_Click);
             // 
+            // LoadConfigButton
+            // 
+            this.LoadConfigButton.Location = new System.Drawing.Point(325, 118);
+            this.LoadConfigButton.Name = "LoadConfigButton";
+            this.LoadConfigButton.Size = new System.Drawing.Size(75, 23);
+            this.LoadConfigButton.TabIndex = 11;
+            this.LoadConfigButton.Text = "Load Config";
+            this.LoadConfigButton.UseVisualStyleBackColor = true;
+            this.LoadConfigButton.Click += new System.EventHandler(this.LoadConfigButton_Click);
+            // 
             // JTT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 546);
+            this.Controls.Add(this.LoadConfigButton);
             this.Controls.Add(this.GetUsersButton);
             this.Controls.Add(this.UserTextBox);
             this.Controls.Add(this.ProjectKeyTextBox);
@@ -169,6 +181,7 @@
         private System.Windows.Forms.TextBox ProjectKeyTextBox;
         private System.Windows.Forms.TextBox UserTextBox;
         private System.Windows.Forms.Button GetUsersButton;
+        private System.Windows.Forms.Button LoadConfigButton;
     }
 }
 
