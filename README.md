@@ -1,3 +1,6 @@
+#IMPORTANT NOTE
+I'm not working with JIRA Server anymore. Thus, I'm archiving this.
+
 # JiraTimeTracker
 A little tool to get working hours from your Jira members
 
